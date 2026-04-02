@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import type { HTMLButtonAttributes, HTMLAnchorAttributes } from 'svelte/elements';
 
   type Variant = 'primary' | 'outline' | 'slate' | 'ghost';
 
@@ -9,13 +8,16 @@
     href,
     children,
     class: className = '',
+    type,
     ...rest
   }: {
     variant?: Variant;
     href?: string;
     children: Snippet;
     class?: string;
-  } & (HTMLButtonAttributes | HTMLAnchorAttributes) = $props();
+    type?: 'button' | 'submit' | 'reset';
+    [key: string]: unknown;
+  } = $props();
 
   const base =
     'inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium text-base transition-all duration-200 cursor-pointer';

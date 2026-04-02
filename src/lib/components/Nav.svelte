@@ -7,6 +7,7 @@
 
   let scrolled = $state(false);
   let mobileOpen = $state(false);
+  let currentPath = $derived(page.url.pathname);
 
   const links = [
     { href: '/', label: 'Home' },
@@ -48,7 +49,7 @@
           {href}
           class="text-sm font-medium transition-colors {showSolid
             ? 'text-gray-600 hover:text-brand-deep'
-            : 'text-white/80 hover:text-white'} {page.url.pathname === href
+            : 'text-white/80 hover:text-white'} {currentPath === href
             ? showSolid
               ? '!text-brand-deep'
               : '!text-white'
