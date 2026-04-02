@@ -1,29 +1,36 @@
 <script lang="ts">
+  import { page } from '$app/state';
   import { reveal } from '$lib/actions/reveal';
+  import SEO from '$lib/components/SEO.svelte';
   import Hero from '$lib/components/Hero.svelte';
-  import BrandBars from '$lib/components/BrandBars.svelte';
+  import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
   import StepSection from '$lib/components/StepSection.svelte';
-  import Button from '$lib/components/Button.svelte';
-  import ValueProp from '$lib/components/ValueProp.svelte';
+  import TrustBadge from '$lib/components/TrustBadge.svelte';
+  import InlineCTA from '$lib/components/InlineCTA.svelte';
+  import { Fingerprint, Eye, Puzzle, Shield } from 'lucide-svelte';
+  import { buildCrumbs, crumbsToSchemaItems } from '$lib/utils/breadcrumbs';
+  import { breadcrumbSchema } from '$lib/schema';
+
+  let crumbs = $derived(buildCrumbs(page.url.pathname));
+  let jsonLd = $derived([breadcrumbSchema(crumbsToSchemaItems(crumbs))]);
 
   const trustBadges = [
-    { title: '100% Bespoke', description: 'Designed around your processes.' },
-    { title: '100% Transparent', description: 'All code shared. Full documentation.' },
-    { title: '100% Integrated', description: 'Works with your existing systems.' },
-    { title: '100% Secure', description: 'GDPR compliance from day one.' },
+    { title: '100% Bespoke', description: 'Designed around your processes.', icon: Fingerprint },
+    { title: '100% Transparent', description: 'All code shared. Full documentation.', icon: Eye },
+    { title: '100% Integrated', description: 'Works with your existing systems.', icon: Puzzle },
+    { title: '100% Secure', description: 'GDPR compliance from day one.', icon: Shield },
   ];
 </script>
 
-<svelte:head>
-  <title>How We Work — Clearstep AI</title>
-  <meta name="description" content="Three steps to owning your AI: we build it, we teach it, you own it. No lock-in, no dependency." />
-</svelte:head>
+<SEO
+  title="How We Work — Clearstep AI"
+  description="Three steps to owning your AI: we build it, we teach it, you own it. No lock-in, no dependency."
+  {jsonLd}
+/>
 
-<Hero title="Three steps to owning your AI" size="short">
-  <div class="mt-8">
-    <BrandBars size="xl" variant="dark" animate />
-  </div>
-</Hero>
+<Hero title="Three steps to owning your AI" size="short" />
+
+<Breadcrumbs {crumbs} />
 
 <StepSection step={0} accentColour="#B5D4F4" title="We Build It">
   <p>Every engagement starts with understanding how your business actually works — not how a textbook says it should. We map your processes, identify where AI adds genuine value, and build a solution around your specific systems and goals.</p>
@@ -40,20 +47,27 @@
   <p>If you want ongoing support, we're here. But you'll never <em>need</em> us. That's the point.</p>
 </StepSection>
 
-<section class="py-20">
+<!-- Trust section -->
+<section class="py-28">
   <div class="max-w-5xl mx-auto px-6 text-center">
-    <h2 use:reveal class="text-3xl font-bold text-brand-deep mb-4">
+    <h2 use:reveal class="text-4xl md:text-5xl font-display font-bold tracking-tight text-brand-deep mb-4">
       By the end, you don't need us. That's the point.
     </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
-      {#each trustBadges as { title, description }, i}
+      {#each trustBadges as { title, description, icon }, i (title)}
         <div use:reveal={{ delay: i * 100 }}>
-          <ValueProp {title} {description} />
+          <TrustBadge {title} {description} {icon} />
         </div>
       {/each}
     </div>
-    <div class="mt-12" use:reveal={{ delay: 400 }}>
-      <Button href="/contact" variant="slate">Start with a Conversation</Button>
-    </div>
   </div>
 </section>
+
+<!-- CTA -->
+<InlineCTA
+  heading="Start with a conversation"
+  primaryHref="/contact"
+  primaryLabel="Book a Discovery Call"
+  primaryVariant="slate"
+  variant="light"
+/>

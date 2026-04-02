@@ -10,8 +10,26 @@
 	--color-brand-slate: #8B7355;
 	--color-brand-navy: #1A1A2E;
 
+	/* Warm neutrals */
+	--color-brand-warm-50: #FAF8F5;
+	--color-brand-warm-100: #F3EDE5;
+	--color-brand-warm-200: #E8DDD0;
+
+	/* Expanded slate range */
+	--color-brand-slate-light: #A89276;
+	--color-brand-slate-dark: #6B5A42;
+
+	/* Text colours */
+	--color-brand-text: #2D2D3A;
+	--color-brand-text-muted: #6B6B7B;
+
 	/* Typography */
 	--font-sans: 'Space Grotesk', sans-serif;
+	--font-display: 'Fraunces', serif;
+
+	/* Shadows */
+	--shadow-card: 0 1px 3px rgba(139, 115, 85, 0.06), 0 8px 24px rgba(139, 115, 85, 0.08);
+	--shadow-card-hover: 0 4px 12px rgba(139, 115, 85, 0.10), 0 16px 40px rgba(139, 115, 85, 0.12);
 }
 
 @layer base {
@@ -26,7 +44,7 @@
 	}
 
 	body {
-		color: #333;
+		color: var(--color-brand-text);
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}

@@ -1,42 +1,60 @@
 <script lang="ts">
   import { reveal } from '$lib/actions/reveal';
+  import { countUp } from '$lib/actions/countUp';
   import BrandBars from '$lib/components/BrandBars.svelte';
   import Button from '$lib/components/Button.svelte';
   import Hero from '$lib/components/Hero.svelte';
+  import InlineCTA from '$lib/components/InlineCTA.svelte';
+  import SEO from '$lib/components/SEO.svelte';
   import ValueProp from '$lib/components/ValueProp.svelte';
+  import { organizationSchema } from '$lib/schema';
+  import { services } from '$lib/data/services';
+  import { Fingerprint, Eye, Puzzle, Shield } from 'lucide-svelte';
 
   const valueProps = [
-    { title: '100% Bespoke', description: 'Every solution is designed around your specific processes, systems, and goals.' },
-    { title: '100% Transparent', description: 'All code is shared. We train your team to manage, modify, and extend solutions independently.' },
-    { title: '100% Integrated', description: 'Solutions connect with your existing ERP, CRM, accounting, and operational systems.' },
-    { title: '100% Secure', description: 'Data protection, GDPR compliance, and company data security are embedded from day one.' },
-  ];
-
-  const services = [
-    { title: 'Bespoke AI Solutions', description: 'Custom-built AI tailored to your workflows, not off-the-shelf templates.', accent: 'bg-brand-deep' },
-    { title: 'Systems Integration', description: 'Seamless connections with your existing business systems and data sources.', accent: 'bg-brand-mid' },
-    { title: 'Team Training & Handover', description: 'Your team learns to manage and extend the solution independently.', accent: 'bg-brand-pale' },
-    { title: 'Ongoing Support', description: 'We stay available when you need us, on your terms.', accent: 'bg-brand-slate' },
+    { title: '100% Bespoke', description: 'Every solution is designed around your specific processes, systems, and goals.', icon: Fingerprint },
+    { title: '100% Transparent', description: 'All code is shared. We train your team to manage, modify, and extend solutions independently.', icon: Eye },
+    { title: '100% Integrated', description: 'Solutions connect with your existing ERP, CRM, accounting, and operational systems.', icon: Puzzle },
+    { title: '100% Secure', description: 'Data protection, GDPR compliance, and company data security are embedded from day one.', icon: Shield },
   ];
 
   const steps = [
-    { label: 'We Build It', description: 'Bespoke AI solutions designed around how you actually work.', colour: 'border-brand-pale text-brand-pale' },
-    { label: 'We Teach It', description: 'Your team trained to manage, modify, and extend it independently.', colour: 'border-brand-mid text-brand-mid' },
-    { label: 'You Own It', description: 'All code is yours. All documentation is yours. No lock-in.', colour: 'border-white text-white' },
+    { number: 1, label: 'We Build It', description: 'Bespoke AI solutions designed around how you actually work.', borderColour: 'border-brand-pale' },
+    { number: 2, label: 'We Teach It', description: 'Your team trained to manage, modify, and extend it independently.', borderColour: 'border-brand-mid' },
+    { number: 3, label: 'You Own It', description: 'All code is yours. All documentation is yours. No lock-in.', borderColour: 'border-white' },
   ];
+
+  const stats = [
+    { target: 27, suffix: '+', label: 'years combined experience' },
+    { target: 100, suffix: '%', label: 'client code ownership' },
+    { target: 0, suffix: '', label: 'lock-in contracts' },
+  ];
+
+  /** Style presets for the 2x2 asymmetric service cards */
+  const cardStyles = [
+    'bg-brand-navy text-white',
+    'bg-white shadow-[var(--shadow-card)]',
+    'bg-white shadow-[var(--shadow-card)]',
+    'bg-transparent border border-brand-warm-200',
+  ];
+
+  const accentColours = ['bg-brand-deep', 'bg-brand-mid', 'bg-brand-pale', 'bg-brand-slate'];
 </script>
 
-<svelte:head>
-  <title>Clearstep AI — We build it. We teach it. You own it.</title>
-</svelte:head>
+<SEO
+  title="Clearstep AI — Bespoke AI Solutions for UK SMEs"
+  description="Bespoke AI solutions designed for UK SMEs in manufacturing, food production, and distribution. We build it. We teach it. You own it."
+  jsonLd={organizationSchema()}
+/>
 
+<!-- Section 1: Hero -->
 <Hero variant="video" videoSrc="/video/hero-bg.mp4" posterSrc="/video/hero-poster.webp" size="full">
-  <div class="flex flex-col items-center gap-6 pt-4">
+  <div class="flex flex-col items-center gap-6 pt-6">
     <BrandBars size="xl" variant="dark" animate />
-    <h1 class="text-5xl md:text-7xl font-medium text-white">
+    <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight text-white">
       clearstep <span class="text-brand-mid">ai</span>
     </h1>
-    <p class="text-lg md:text-xl font-medium text-white/65">
+    <p class="text-lg md:text-xl font-medium text-white/60 tracking-wide">
       We build it. We teach it. You own it.
     </p>
     <div class="flex flex-wrap gap-4 mt-4">
@@ -46,95 +64,135 @@
   </div>
 </Hero>
 
+<!-- Section 2: Value Props Strip -->
 <section class="bg-brand-wash py-20">
   <div class="max-w-7xl mx-auto px-6">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-      {#each valueProps as { title, description }, i}
+      {#each valueProps as { title, description, icon }, i}
         <div use:reveal={{ delay: i * 100 }}>
-          <ValueProp {title} {description} />
+          <ValueProp {title} {description} {icon} />
         </div>
       {/each}
     </div>
   </div>
 </section>
 
-<section class="py-20">
+<!-- Section 3: What We Do -->
+<section class="bg-brand-warm-50 py-24">
   <div class="max-w-7xl mx-auto px-6">
-    <h2 use:reveal class="text-3xl md:text-4xl font-bold text-brand-deep text-center mb-12">
+    <h2
+      use:reveal
+      class="text-4xl md:text-5xl font-display font-bold tracking-tight text-brand-deep text-center mb-14"
+    >
       What we do
     </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {#each services as { title, description, accent }, i}
-        <div
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {#each services as service, i}
+        <a
+          href="/services/{service.slug}"
           use:reveal={{ delay: i * 100 }}
-          class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+          class="group rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 {cardStyles[i]}"
         >
-          <div class="{accent} h-1 w-12 rounded-full mb-4"></div>
-          <h3 class="text-lg font-bold text-brand-deep mb-2">{title}</h3>
-          <p class="text-sm text-gray-600 leading-relaxed mb-4">{description}</p>
-          <a href="/services" class="text-sm font-medium text-brand-mid hover:text-brand-deep transition-colors">
+          <div class="{accentColours[i]} h-[3px] w-12 rounded-full mb-5"></div>
+          <h3 class="text-lg font-bold mb-2 {i === 0 ? 'text-white' : 'text-brand-deep'}">
+            {service.title}
+          </h3>
+          <p class="text-sm leading-relaxed mb-4 {i === 0 ? 'text-white/70' : 'text-brand-text-muted'}">
+            {service.description}
+          </p>
+          <span class="text-sm font-medium transition-colors {i === 0
+            ? 'text-brand-mid group-hover:text-brand-pale'
+            : 'text-brand-mid group-hover:text-brand-deep'}">
             Learn more &rarr;
-          </a>
-        </div>
+          </span>
+        </a>
       {/each}
     </div>
   </div>
 </section>
 
-<section class="bg-brand-deep py-20">
-  <div class="max-w-7xl mx-auto px-6">
-    <h2 use:reveal class="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+<!-- Section 4: Three Steps Journey -->
+<section class="bg-brand-navy py-24">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2
+      use:reveal
+      class="text-4xl md:text-5xl font-display font-bold tracking-tight text-white text-center mb-16"
+    >
       Three steps to owning your AI
     </h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {#each steps as { label, description, colour }, i}
-        <div use:reveal={{ delay: i * 150 }} class="border-l-4 {colour} pl-6">
-          <h3 class="text-xl font-bold text-white mb-2">{label}</h3>
-          <p class="text-white/70 leading-relaxed">{description}</p>
+
+    <div class="relative grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+      <!-- Connecting dashed line (desktop only) -->
+      <div
+        class="hidden md:block absolute top-8 left-[calc(16.67%+24px)] right-[calc(16.67%+24px)] border-t-2 border-dashed border-white/20"
+        aria-hidden="true"
+      ></div>
+
+      {#each steps as step, i}
+        <div use:reveal={{ delay: i * 150 }} class="flex flex-col items-center text-center relative">
+          <div
+            class="w-16 h-16 rounded-full border-2 {step.borderColour} flex items-center justify-center mb-4 bg-brand-navy relative z-10"
+          >
+            <span class="font-display font-bold text-2xl text-white">{step.number}</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">{step.label}</h3>
+          <p class="text-white/70 leading-relaxed max-w-xs">{step.description}</p>
         </div>
       {/each}
     </div>
-    <div class="text-center mt-10" use:reveal={{ delay: 450 }}>
-      <a href="/how-we-work" class="text-brand-mid font-medium hover:text-white transition-colors">
+
+    <div class="text-center mt-12" use:reveal={{ delay: 450 }}>
+      <a
+        href="/how-we-work"
+        class="text-brand-mid font-medium hover:text-white transition-colors"
+      >
         See the full process &rarr;
       </a>
     </div>
   </div>
 </section>
 
-<section class="bg-brand-wash py-20">
-  <div class="max-w-5xl mx-auto px-6 text-center">
-    <h2 use:reveal class="text-3xl md:text-4xl font-bold text-brand-deep mb-6">
+<!-- Section 5: Built from Real Results -->
+<section class="bg-brand-wash py-24">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2
+      use:reveal
+      class="text-4xl md:text-5xl font-display font-bold tracking-tight text-brand-deep text-center mb-14"
+    >
       Built from real results
     </h2>
-    <p use:reveal={{ delay: 100 }} class="text-lg text-gray-600 max-w-2xl mx-auto mb-12">
-      Founded by a CEO who led a major AI-driven business turnaround and the technical specialist who built those solutions.
-    </p>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8" use:reveal={{ delay: 200 }}>
-      <div>
-        <p class="text-4xl font-bold text-brand-deep">27+</p>
-        <p class="text-sm text-gray-500 mt-1">years combined experience</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+      <!-- Left: pull-quote -->
+      <div use:reveal={{ delay: 100 }}>
+        <blockquote class="font-display italic text-2xl text-brand-deep leading-relaxed">
+          &ldquo;Founded by a CEO who led a major AI-driven business turnaround and the technical
+          specialist who built those solutions.&rdquo;
+        </blockquote>
       </div>
-      <div>
-        <p class="text-4xl font-bold text-brand-deep">100%</p>
-        <p class="text-sm text-gray-500 mt-1">client code ownership</p>
-      </div>
-      <div>
-        <p class="text-4xl font-bold text-brand-deep">0</p>
-        <p class="text-sm text-gray-500 mt-1">lock-in contracts</p>
+
+      <!-- Right: stat blocks -->
+      <div class="flex flex-col gap-8" use:reveal={{ delay: 200 }}>
+        {#each stats as stat}
+          <div>
+            <p class="text-4xl font-display font-bold text-brand-slate" use:countUp={{ target: stat.target, suffix: stat.suffix }}>
+              0
+            </p>
+            <p class="text-sm text-brand-text-muted mt-1">{stat.label}</p>
+          </div>
+        {/each}
       </div>
     </div>
   </div>
 </section>
 
-<section class="py-20">
-  <div class="max-w-3xl mx-auto px-6 text-center" use:reveal>
-    <h2 class="text-3xl md:text-4xl font-bold text-brand-deep mb-6">
-      Ready to take the first step?
-    </h2>
-    <div class="flex flex-wrap justify-center gap-4">
-      <Button href="/contact" variant="slate">Book a Discovery Call</Button>
-      <Button href="/contact" variant="ghost">Get in Touch</Button>
-    </div>
-  </div>
-</section>
+<!-- Section 6: Final CTA -->
+<InlineCTA
+  heading="Ready to take the first step?"
+  primaryHref="/contact"
+  primaryLabel="Book a Discovery Call"
+  primaryVariant="slate"
+  secondaryHref="/case-studies"
+  secondaryLabel="See our case studies"
+  variant="light"
+/>

@@ -1,78 +1,147 @@
 <script lang="ts">
+  import { page } from '$app/state';
   import { reveal } from '$lib/actions/reveal';
+  import SEO from '$lib/components/SEO.svelte';
   import Hero from '$lib/components/Hero.svelte';
+  import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
   import ServiceCard from '$lib/components/ServiceCard.svelte';
-  import Button from '$lib/components/Button.svelte';
+  import InlineCTA from '$lib/components/InlineCTA.svelte';
+  import { Check } from 'lucide-svelte';
+  import { services } from '$lib/data/services';
+  import { sectors } from '$lib/data/sectors';
+  import { buildCrumbs, crumbsToSchemaItems } from '$lib/utils/breadcrumbs';
+  import { breadcrumbSchema, serviceSchema } from '$lib/schema';
 
-  const services = [
-    {
-      title: 'Bespoke AI Solutions',
-      description: 'Custom-built AI designed around your specific workflows, data, and goals. No templates, no one-size-fits-all.',
-      deliverables: ['Process audit and opportunity mapping', 'Custom model development and training', 'End-to-end solution built around your systems', 'Full documentation and source code handover'],
-    },
-    {
-      title: 'Systems Integration',
-      description: 'Seamless connections between your AI solutions and existing business systems — ERP, CRM, accounting, and operational platforms.',
-      deliverables: ['API development and data pipeline design', 'Business Central, Microsoft 365, and CRM integration', 'Automated data flows between systems', 'Real-time dashboards and reporting'],
-    },
-    {
-      title: 'Team Training & Handover',
-      description: 'Comprehensive knowledge transfer so your team can manage, modify, and extend solutions independently.',
-      deliverables: ['Hands-on training workshops for your team', 'Complete technical documentation', 'Video walkthroughs of key processes', 'Ongoing Q&A support during transition'],
-    },
-    {
-      title: 'Ongoing Support',
-      description: 'We stay available on your terms. No lock-in contracts — just flexible support when you need it.',
-      deliverables: ['Priority access to our technical team', 'System health monitoring and alerts', 'Quarterly reviews and optimisation', 'Ad-hoc development for new requirements'],
-    },
-  ];
+  let crumbs = $derived(buildCrumbs(page.url.pathname));
 
-  const sectors = [
-    { name: 'High-End Food Production', challenge: 'Complex compliance, batch traceability, and seasonal demand forecasting.', response: 'AI-driven quality control, automated HACCP documentation, and predictive demand planning.' },
-    { name: 'Premium Manufacturing', challenge: 'Production scheduling, waste reduction, and multi-system coordination.', response: 'Intelligent scheduling, real-time production monitoring, and automated reporting across ERP and shop floor systems.' },
-    { name: 'Distribution', challenge: 'Route optimisation, inventory management, and customer demand patterns.', response: 'Predictive stock management, automated order processing, and smart logistics planning.' },
-    { name: 'Professional Services', challenge: 'Resource allocation, client reporting, and knowledge management.', response: 'Automated time tracking and billing, intelligent document processing, and client insight dashboards.' },
-  ];
+  const bespoke = services.find((s) => s.slug === 'bespoke-ai')!;
+  const integration = services.find((s) => s.slug === 'systems-integration')!;
+  const training = services.find((s) => s.slug === 'team-training')!;
+  const support = services.find((s) => s.slug === 'ongoing-support')!;
 </script>
 
-<svelte:head>
-  <title>Services — Clearstep AI</title>
-  <meta name="description" content="Bespoke AI solutions, systems integration, team training, and ongoing support for UK SMEs." />
-</svelte:head>
+<SEO
+  title="Services — Clearstep AI"
+  description="Bespoke AI solutions, systems integration, team training, and ongoing support for UK SMEs."
+  jsonLd={[
+    breadcrumbSchema(crumbsToSchemaItems(crumbs)),
+    ...serviceSchema(services.map((s) => ({ name: s.title, description: s.description }))),
+  ]}
+/>
 
-<Hero title="AI that fits your business, not the other way around" subtitle="Practical solutions built around how you actually work." size="short" />
+<Hero
+  title="AI that fits your business, not the other way around"
+  subtitle="Practical solutions built around how you actually work."
+  size="short"
+  accentPosition="right"
+/>
 
-<section class="py-20">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {#each services as service, i}
-        <div use:reveal={{ delay: i * 100 }}>
-          <ServiceCard {...service} />
+<Breadcrumbs {crumbs} />
+
+<!-- Services grid: alternating full / half-width rows -->
+<section class="py-24">
+  <div class="max-w-7xl mx-auto px-6 space-y-8">
+
+    <!-- Row 1: Full-width — Bespoke AI Solutions -->
+    <a
+      href="/services/bespoke-ai"
+      class="block bg-brand-warm-50 rounded-2xl p-8 lg:p-10 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-1 transition-all duration-300"
+      use:reveal
+    >
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div>
+          <div class="h-[3px] w-16 bg-brand-deep rounded-full mb-6"
+            style="mask-image: linear-gradient(to right, black, transparent); -webkit-mask-image: linear-gradient(to right, black, transparent);"
+          ></div>
+          <h3 class="text-2xl font-sans font-semibold text-brand-deep mb-3">{bespoke.title}</h3>
+          <p class="text-brand-text-muted leading-relaxed mb-4">{bespoke.description}</p>
+          <span class="inline-flex items-center gap-1 text-sm font-medium text-brand-deep">
+            Learn more &rarr;
+          </span>
         </div>
-      {/each}
+        <ul class="space-y-3">
+          {#each bespoke.deliverables as item (item)}
+            <li class="flex items-start gap-2 text-sm text-brand-text">
+              <Check size={16} strokeWidth={2} class="text-brand-mid mt-0.5 shrink-0" />
+              {item}
+            </li>
+          {/each}
+        </ul>
+      </div>
+    </a>
+
+    <!-- Row 2: Two half-width cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div use:reveal={{ delay: 0 }} class="hover:-translate-y-1 transition-transform duration-300">
+        <ServiceCard
+          title={integration.title}
+          description={integration.description}
+          deliverables={integration.deliverables}
+          href="/services/systems-integration"
+          accent={integration.accent}
+        />
+      </div>
+      <div use:reveal={{ delay: 100 }} class="hover:-translate-y-1 transition-transform duration-300">
+        <ServiceCard
+          title={training.title}
+          description={training.description}
+          deliverables={training.deliverables}
+          href="/services/team-training"
+          accent={training.accent}
+        />
+      </div>
     </div>
+
+    <!-- Row 3: Full-width — Ongoing Support (lighter treatment) -->
+    <a
+      href="/services/ongoing-support"
+      class="block bg-transparent border border-brand-warm-200 rounded-xl p-8 hover:-translate-y-1 hover:shadow-[var(--shadow-card)] transition-all duration-300"
+      use:reveal
+    >
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div>
+          <h3 class="text-2xl font-sans font-semibold text-brand-deep mb-3">{support.title}</h3>
+          <p class="text-brand-text-muted leading-relaxed mb-4">{support.description}</p>
+          <span class="inline-flex items-center gap-1 text-sm font-medium text-brand-deep">
+            Learn more &rarr;
+          </span>
+        </div>
+        <ul class="space-y-3">
+          {#each support.deliverables as item (item)}
+            <li class="flex items-start gap-2 text-sm text-brand-text">
+              <Check size={16} strokeWidth={2} class="text-brand-mid mt-0.5 shrink-0" />
+              {item}
+            </li>
+          {/each}
+        </ul>
+      </div>
+    </a>
+
   </div>
 </section>
 
-<section class="bg-brand-wash py-20">
+<!-- Sectors -->
+<section class="bg-brand-wash py-24">
   <div class="max-w-7xl mx-auto px-6">
-    <h2 use:reveal class="text-3xl font-bold text-brand-deep text-center mb-12">Who we work with</h2>
+    <h2 use:reveal class="text-4xl md:text-5xl font-display font-bold tracking-tight text-brand-deep text-center mb-14">Who we work with</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {#each sectors as { name, challenge, response }, i}
-        <div use:reveal={{ delay: i * 100 }} class="bg-white rounded-xl p-6">
+      {#each sectors as { name, challenge, response }, i (name)}
+        <div use:reveal={{ delay: i * 100 }} class="bg-brand-warm-50 rounded-2xl p-8 shadow-[0_2px_20px_rgba(0,0,0,0.06)]">
           <h3 class="text-lg font-bold text-brand-deep mb-3">{name}</h3>
-          <p class="text-sm text-gray-500 mb-2"><strong class="text-gray-700">Challenge:</strong> {challenge}</p>
-          <p class="text-sm text-gray-500"><strong class="text-brand-mid">How AI helps:</strong> {response}</p>
+          <p class="text-sm text-brand-text-muted mb-2"><strong class="text-brand-text">Challenge:</strong> {challenge}</p>
+          <p class="text-sm text-brand-text-muted"><strong class="text-brand-mid">How AI helps:</strong> {response}</p>
         </div>
       {/each}
     </div>
   </div>
 </section>
 
-<section class="bg-brand-deep py-20">
-  <div class="max-w-3xl mx-auto px-6 text-center" use:reveal>
-    <h2 class="text-3xl font-bold text-white mb-4">Not sure where to start?</h2>
-    <p class="text-white/70 mb-8">Most of our clients weren't sure either. That's what the discovery call is for.</p>
-    <Button href="/contact" variant="slate">Book a Discovery Call</Button>
-  </div>
-</section>
+<!-- CTA -->
+<InlineCTA
+  heading="Not sure where to start?"
+  description="Most of our clients weren't sure either. That's what the discovery call is for."
+  primaryHref="/contact"
+  primaryLabel="Book a Discovery Call"
+  primaryVariant="slate"
+  variant="dark"
+/>
