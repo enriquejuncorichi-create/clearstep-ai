@@ -51,7 +51,6 @@ export const mainNav: NavItem[] = [
       },
     ],
   },
-  { href: '/case-studies', label: 'Case Studies' },
   { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -76,7 +75,6 @@ export const footerNav: FooterNav = {
   company: [
     { href: '/about', label: 'About' },
     { href: '/how-we-work', label: 'How We Work' },
-    { href: '/case-studies', label: 'Case Studies' },
     { href: '/faq', label: 'FAQ' },
   ],
   legal: [

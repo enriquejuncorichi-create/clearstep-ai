@@ -16,7 +16,6 @@ export function buildCrumbs(pathname: string, labels?: Record<string, string>): 
 		'ongoing-support': 'Ongoing Support',
 		'how-we-work': 'How We Work',
 		contact: 'Contact',
-		'case-studies': 'Case Studies',
 		faq: 'FAQ',
 	};
 

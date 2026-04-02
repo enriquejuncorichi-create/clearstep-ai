@@ -192,7 +192,7 @@
   primaryHref="/contact"
   primaryLabel="Book a Discovery Call"
   primaryVariant="slate"
-  secondaryHref="/case-studies"
-  secondaryLabel="See our case studies"
+  secondaryHref="/services"
+  secondaryLabel="See our services"
   variant="light"
 />
