@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <!-- Containment circle -->
+  <circle cx="200" cy="200" r="186" fill="none" stroke="#185FA5" stroke-width="2" opacity="0.2"/>
+
+  <!-- Ascending bars (6:9:13 ratio, gap = 22px) -->
+  <rect x="88" y="210" width="60" height="120" rx="6" fill="#B5D4F4"/>
+  <rect x="170" y="150" width="60" height="180" rx="6" fill="#378ADD"/>
+  <rect x="252" y="70" width="60" height="260" rx="6" fill="#185FA5"/>
+</svg>
