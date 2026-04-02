@@ -23,7 +23,7 @@
 <section
   class="relative flex items-center justify-center overflow-hidden {size === 'full'
     ? 'min-h-screen'
-    : 'min-h-[45vh]'}"
+    : 'min-h-[50vh]'}"
 >
   {#if variant === 'video' && videoSrc}
     <video
@@ -41,7 +41,7 @@
     <div class="absolute inset-0 bg-brand-deep"></div>
   {/if}
 
-  <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+  <div class="relative z-10 text-center px-6 pt-24 pb-12 max-w-4xl mx-auto">
     {#if title}
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
         {title}
