@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import BrandBars from './BrandBars.svelte';
   import MobileMenu from './MobileMenu.svelte';
 
@@ -48,7 +48,7 @@
           {href}
           class="text-sm font-medium transition-colors {showSolid
             ? 'text-gray-600 hover:text-brand-deep'
-            : 'text-white/80 hover:text-white'} {$page.url.pathname === href
+            : 'text-white/80 hover:text-white'} {page.url.pathname === href
             ? showSolid
               ? '!text-brand-deep'
               : '!text-white'
