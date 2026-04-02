@@ -119,7 +119,7 @@
 
   <!-- Invisible bridge to prevent mouse-gap closure -->
   {#if isOpen}
-    <div class="absolute top-full left-1/2 -translate-x-1/2 h-3 w-full" aria-hidden="true"></div>
+    <div class="absolute top-full left-0 h-3 w-full" aria-hidden="true"></div>
   {/if}
 
   <!-- Dropdown panel -->
@@ -129,7 +129,7 @@
       onmouseleave={closeDropdown}
       role="menu"
       tabindex="-1"
-      class="dropdown-panel absolute top-[calc(100%+0.75rem)] left-1/2 -translate-x-1/2 bg-white rounded-xl shadow-lg border border-brand-warm-200 p-2 min-w-[280px]"
+      class="dropdown-panel absolute top-[calc(100%+0.75rem)] left-0 bg-white rounded-xl shadow-lg border border-brand-warm-200 p-2 min-w-[280px]"
     >
       {#each children as child (child.href)}
         <a
@@ -168,11 +168,11 @@
   @keyframes dropdown-enter {
     from {
       opacity: 0;
-      transform: translateX(-50%) translateY(-8px);
+      translate: 0 -8px;
     }
     to {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      translate: 0 0;
     }
   }
 

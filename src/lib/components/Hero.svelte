@@ -61,9 +61,20 @@
     });
   }
 
+  let loopFading = $state(false);
+
   function handleVideoReady() {
     videoReady = true;
     syncPlayback();
+
+    // Seamless loop: cross-fade near the end of the video to mask the cut
+    if (videoElement) {
+      videoElement.addEventListener('timeupdate', () => {
+        if (!videoElement) return;
+        const timeLeft = videoElement.duration - videoElement.currentTime;
+        loopFading = timeLeft < 0.8 && timeLeft > 0;
+      });
+    }
   }
 
   function handleVideoError() {
@@ -157,9 +168,9 @@
         tabindex="-1"
         disablepictureinpicture
         disableremoteplayback
-        class="absolute inset-0 h-full w-full object-cover pointer-events-none transition-opacity duration-700 ease-out {videoReady
-          ? 'opacity-100'
-          : 'opacity-0'}"
+        class="absolute inset-0 h-full w-full object-cover pointer-events-none transition-opacity ease-out {videoReady
+          ? loopFading ? 'opacity-0 duration-700' : 'opacity-100 duration-700'
+          : 'opacity-0 duration-700'}"
         onloadeddata={handleVideoReady}
         onerror={handleVideoError}
       >
