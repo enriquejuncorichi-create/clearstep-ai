@@ -1,11 +1,19 @@
 <script lang="ts">
-	import favicon from '$lib/assets/favicon.svg';
+	import '../app.css';
+	import Nav from '$lib/components/Nav.svelte';
+	import Footer from '$lib/components/Footer.svelte';
+	import { page } from '$app/state';
+	import type { Snippet } from 'svelte';
 
-	let { children } = $props();
+	let { children }: { children: Snippet } = $props();
+
+	let isHome = $derived(page.url.pathname === '/');
 </script>
 
-<svelte:head>
-	<link rel="icon" href={favicon} />
-</svelte:head>
+<Nav transparent={isHome} />
 
-{@render children()}
+<main>
+	{@render children()}
+</main>
+
+<Footer />
