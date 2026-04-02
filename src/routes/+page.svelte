@@ -41,7 +41,7 @@
     </p>
     <div class="flex flex-wrap gap-4 mt-4">
       <Button href="/how-we-work" variant="primary">See How We Work</Button>
-      <Button href="/contact" variant="outline">Book a Discovery Call</Button>
+      <Button href="/contact" variant="outline-light">Book a Discovery Call</Button>
     </div>
   </div>
 </Hero>
